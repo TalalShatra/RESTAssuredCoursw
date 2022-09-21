@@ -7,6 +7,7 @@ import org.testng.annotations.Test;
 import java.util.HashMap;
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.core.IsEqual.equalTo;
 
 public class GoRestHomeworkTest {
 
@@ -40,7 +41,9 @@ public class GoRestHomeworkTest {
                     .post("/public/v2/users")
                 .then()
                     .statusCode(201)
+                    .body("name", equalTo(requestBody.get("name")))
                     .extract().path("id");
+
     }
     @Test(dependsOnMethods = "createUserPositiveTest")
     public void createUserNegativeTest(){
@@ -59,7 +62,8 @@ public class GoRestHomeworkTest {
                 .when()
                     .get("/public/v2/users/" + userId)
                 .then()
-                    .log().body();
+                    .statusCode(200)
+                    .body("name", equalTo(requestBody.get("name")));
     }
     @Test(dependsOnMethods = "getUserInformationTest")
     public void editUserEmailTest(){

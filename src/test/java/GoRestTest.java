@@ -5,7 +5,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import java.util.HashMap;
 import static io.restassured.RestAssured.*;
-
+import static org.hamcrest.core.IsEqual.equalTo;
 
 
 public class GoRestTest {
@@ -42,6 +42,7 @@ public class GoRestTest {
                 .then()
                     .statusCode(201)
                     .log().body()
+                    .body("name", equalTo(requestBody.get("name")))
                     .extract().path("id");
 
   //JSON= Java Script Object Notation. In Javascript objects have the similar structure with Hashmaps in Java. This is why we use Hashmap
